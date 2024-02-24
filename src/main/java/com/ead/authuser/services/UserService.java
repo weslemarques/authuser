@@ -10,4 +10,6 @@ public interface UserService {
     List<UserModel> getAll();
 
     Optional<UserModel> findById(UUID userId);
+
+    void delete(UserModel userModel);
 }
