@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +34,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found");
         }
         return ResponseEntity.status(HttpStatus.OK).body(userModelOptional.get());
+    }
+
+
+    @DeleteMapping("/userId")
+    public ResponseEntity<Object> deleteUser(@PathVariable(value = "userId") UUID userId){
+        Optional<UserModel> userOptional = userService.findById(userId);
+        if(userOptional.isEmpty()){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found");
+        }
+        userService.delete(userOptional.get());
+        return ResponseEntity.noContent().build();
     }
 
 
