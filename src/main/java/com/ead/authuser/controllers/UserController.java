@@ -30,14 +30,14 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<Object> getOneUser(@PathVariable(value = "userId") UUID userId){
         var userModelOptional = userService.findById(userId);
-        if(userModelOptional.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(userModelOptional.get());
+        return userModelOptional.<ResponseEntity<Object>>map(
+                userModel -> ResponseEntity.status(HttpStatus.OK)
+                        .body(userModel))
+                        .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found"));
     }
 
 
-    @DeleteMapping("/userId")
+    @DeleteMapping("/{userId}")
     public ResponseEntity<Object> deleteUser(@PathVariable(value = "userId") UUID userId){
         Optional<UserModel> userOptional = userService.findById(userId);
         if(userOptional.isEmpty()){
