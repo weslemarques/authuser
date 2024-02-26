@@ -1,8 +1,12 @@
 package com.ead.authuser.services.impl;
 
+import com.ead.authuser.dtos.UserCreateDTO;
+import com.ead.authuser.enums.UserStatus;
+import com.ead.authuser.enums.UserType;
 import com.ead.authuser.models.UserModel;
 import com.ead.authuser.repositories.UserRepository;
 import com.ead.authuser.services.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,5 +36,15 @@ public class UserServiceImpl implements UserService
     @Override
     public void delete(UserModel userModel) {
         userRepository.delete(userModel);
+    }
+
+    @Override
+    public Object save(UserCreateDTO userCreateDTO) {
+        var user = new UserModel();
+        BeanUtils.copyProperties(userCreateDTO,user);
+        user.setUserType(UserType.STUDENT);
+        user.setUserStatus(UserStatus.ACTIVE);
+        user = userRepository.save(user);
+        return user;
     }
 }
