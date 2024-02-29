@@ -36,7 +36,6 @@ public class UserController {
                         .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not Found"));
     }
 
-
     @DeleteMapping("/{userId}")
     public ResponseEntity<Object> deleteUser(@PathVariable(value = "userId") UUID userId){
         Optional<UserModel> userOptional = userService.findById(userId);
