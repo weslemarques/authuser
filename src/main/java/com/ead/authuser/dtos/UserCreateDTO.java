@@ -14,7 +14,6 @@ public class UserCreateDTO implements Serializable {
     private String password;
     private UserStatus userStatus;
     private UserType userType;
-
     private String phoneNumber;
     private String cpf;
     private String imageUrl;
